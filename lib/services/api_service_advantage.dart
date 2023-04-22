@@ -1,29 +1,31 @@
 import 'package:dio/dio.dart';
+import 'package:stocks_application/models/auto_complete_advantage.dart';
 import 'package:stocks_application/models/auto_complete_query.dart';
 import 'package:stocks_application/models/stock_quote.dart';
+import 'package:stocks_application/models/stock_quote_advantage.dart';
 
-class ApiService {
+class ApiServiceAdvantage {
   late Dio _dio;
 
-  ApiService() {
+  ApiServiceAdvantage() {
     _dio = createDio();
     print('Api Service created sucessfully');
   }
 
-  final String _baseUrl = "https://api.twelvedata.com/";
-  final String _apiKey = "eeccc1f6aeaf4a3c9622a36ca52eaf83";
+  final String _baseUrl = "https://www.alphavantage.co/query";
+  final String _apiKey = "BDL5TS4ZRCOWNNMW";
 
   Dio createDio() {
     return Dio(
         BaseOptions(baseUrl: _baseUrl, queryParameters: {"apikey": _apiKey}));
   }
 
-  Future<AutoComplete?> getAutoComplete() async {
-    AutoComplete? autoComplete;
+  Future<AutoCompleteAdvantange?> getAutoComplete(String query) async {
+    AutoCompleteAdvantange? autoCompleteAdvantange;
     try {
-      Response<dynamic> autoCompleteData = await _dio.get('/stocks',
-          queryParameters: {'country': "india", 'type': "Common Stock"});
-      autoComplete = AutoComplete.fromJson(autoCompleteData.data);
+      Response<dynamic> autoCompleteAdvantageData = await _dio.get('',
+          queryParameters: {'keywords': query,"function" :'SYMBOL_SEARCH'});
+      autoCompleteAdvantange = AutoCompleteAdvantange.fromJson(autoCompleteAdvantageData.data);
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
@@ -39,16 +41,16 @@ class ApiService {
         print(e);
       }
     }
-    return autoComplete;
+    return autoCompleteAdvantange;
   }
 
-  Future<StockQuote?> getStockQuote(String symbol) async {
-    StockQuote? stockQuote;
+  Future<StockQuoteAdvantange?> getStockQuote(String symbol) async {
+    StockQuoteAdvantange? stockQuote;
     try {
       Response<dynamic> stockQuoteData = await _dio.get('/quote',
-          queryParameters: {'symbol': symbol});
+          queryParameters: {'symbol': symbol, "function": "GLOBAL_QUOTE"});
       print(stockQuoteData.data);
-      stockQuote = StockQuote.fromJson(stockQuoteData.data);
+      stockQuote = StockQuoteAdvantange.fromJson(stockQuoteData.data);
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
