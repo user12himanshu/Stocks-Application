@@ -17,7 +17,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  int currentIndex = 1;
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,65 +38,7 @@ class _MyAppState extends State<MyApp> {
       ),
 
 
-      home:Scaffold(
-        backgroundColor: Colors.transparent,
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-
-                colors: [
-                  Color(0xFF292965),
-                  Color(0xFF1F1E1E),
-                  Color(0xFF1E1E1E),
-                  Color(0xFF1F1E1E),
-                  Color(0xFF292965),
-                ],
-                begin: Alignment.topRight,
-                end: Alignment.bottomCenter,
-              )
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (index) {
-            setState(() => currentIndex = index);
-          },
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: kHeadLineColor,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          unselectedItemColor: kUnselectedColor,
-
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Activity',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.trending_up_rounded),
-              label: 'Trending',),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              label: 'TopUP',),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Friends',
-            ),
-
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_box_rounded),
-              label: 'Profile',
-            ),
-          ],
-        ),
-
-      ),
+      home: HomeScreen(),
     );
   }
 }

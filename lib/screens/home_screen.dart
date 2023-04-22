@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:stocks_application/models/auto_complete_advantage.dart';
@@ -6,6 +7,7 @@ import 'package:stocks_application/services/api_servie.dart';
 import 'package:stocks_application/models/auto_complete_query.dart';
 import 'package:search_page/search_page.dart';
 
+import '../app_theme/constants.dart';
 import '../services/api_service_advantage.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,11 +21,157 @@ class _HomeScreenState extends State<HomeScreen> {
   ApiService apiService = ApiService();
   ApiServiceAdvantage apiServiceAdvantage = ApiServiceAdvantage();
   String _query = "";
+  int currentIndex = 1;
+
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: false,
+        extendBody: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            colors: [
+              Color(0xFF292965),
+              Color(0xFF1F1E1E),
+              Color(0xFF1E1E1E),
+              Color(0xFF1F1E1E),
+              Color(0xFF292965),
+            ],
+            begin: Alignment.topRight,
+            end: Alignment.bottomCenter,
+          )),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 0.90,
+            child: FloatingSearchBar(
+              hint: 'Search...',
+              scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
+              transitionDuration: const Duration(milliseconds: 800),
+              transitionCurve: Curves.easeInOut,
+              physics: const BouncingScrollPhysics(),
+              openAxisAlignment: 0.0,
+              debounceDelay: const Duration(milliseconds: 500),
+              onQueryChanged: (query) {
+                setState(() {
+                  _query = query;
+                  print(_query);
+                });
+              },
+              // Specify a custom transition to be used for
+              // animating between opened and closed stated.
+              transition: CircularFloatingSearchBarTransition(),
+              actions: [
+                FloatingSearchBarAction(
+                  showIfOpened: false,
+                  child: CircularButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {},
+                  ),
+                ),
+                FloatingSearchBarAction.searchToClear(
+                  showIfClosed: false,
+                ),
+              ],
+              builder: (context, transition) {
+                return _query == ""
+                    ? Container()
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: FutureBuilder<AutoCompleteAdvantange?>(
+                            future: apiServiceAdvantage.getAutoComplete(_query),
+                            // a previously-obtained Future<String> or null
+                            builder: (BuildContext context,
+                                AsyncSnapshot<AutoCompleteAdvantange?>
+                                    snapshot) {
+                              Widget widget;
+                              if (snapshot.hasData) {
+                                List<BestMatch> stocksList =
+                                    snapshot.data!.bestMatches!;
+                                widget = ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: stocksList.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        title:
+                                            Text(stocksList[index].the2Name!),
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      StockDetail(
+                                                        stockSymbol:
+                                                            stocksList[index]
+                                                                .the1Symbol!,
+                                                        apiService: apiService,
+                                                        stockInfo:
+                                                            stocksList[index],
+                                                      )));
+                                        },
+                                      );
+                                    });
+                              } else if (snapshot.hasError) {
+                                widget = Column(children: <Widget>[
+                                  const Icon(
+                                    Icons.error_outline,
+                                    color: Colors.red,
+                                    size: 60,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 16),
+                                    child: Text('Error: ${snapshot.error}'),
+                                  ),
+                                ]);
+                              } else {
+                                widget = CircularProgressIndicator();
+                              }
+                              return widget;
+                            }));
+              },
+            ),
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (index) {
+            setState(() => currentIndex = index);
+          },
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: kHeadLineColor,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          unselectedItemColor: kUnselectedColor,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Activity',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.trending_up_rounded),
+              label: 'Trending',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.add),
+              label: 'TopUP',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Friends',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.account_box_rounded),
+              label: 'Profile',
+            ),
+          ],
+        ),
+
         resizeToAvoidBottomInset: false,
         // body: FutureBuilder<AutoComplete?>(
         //   future: apiService.getAutoComplete(),
@@ -114,91 +262,6 @@ class _HomeScreenState extends State<HomeScreen> {
         //     return widget;
         //   },
         // ),
-        body: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.90,
-          child: FloatingSearchBar(
-            hint: 'Search...',
-            scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-            transitionDuration: const Duration(milliseconds: 800),
-            transitionCurve: Curves.easeInOut,
-            physics: const BouncingScrollPhysics(),
-            openAxisAlignment: 0.0,
-            debounceDelay: const Duration(milliseconds: 500),
-            onQueryChanged: (query) {
-              setState(() {
-                _query = query;
-                print(_query);
-              });
-            },
-            // Specify a custom transition to be used for
-            // animating between opened and closed stated.
-            transition: CircularFloatingSearchBarTransition(),
-            actions: [
-              FloatingSearchBarAction(
-                showIfOpened: false,
-                child: CircularButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {},
-                ),
-              ),
-              FloatingSearchBarAction.searchToClear(
-                showIfClosed: false,
-              ),
-            ],
-            builder: (context, transition) {
-              return _query == ""
-                  ? Container()
-                  : ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: FutureBuilder<AutoCompleteAdvantange?>(
-                          future: apiServiceAdvantage.getAutoComplete(_query),
-                          // a previously-obtained Future<String> or null
-                          builder: (BuildContext context,
-                              AsyncSnapshot<AutoCompleteAdvantange?> snapshot) {
-                            Widget widget;
-                            if (snapshot.hasData) {
-                              List<BestMatch> stocksList =
-                                  snapshot.data!.bestMatches!;
-                              widget = ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: stocksList.length,
-                                  itemBuilder: (context, index) {
-                                    return ListTile(
-                                      title: Text(stocksList[index].the2Name!),
-                                      onTap: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    StockDetail(
-                                                        stockSymbol:
-                                                            stocksList[index]
-                                                                .the1Symbol!,
-                                                        apiService:
-                                                            apiService, stockInfo: stocksList[index],)));
-                                      },
-                                    );
-                                  });
-                            } else if (snapshot.hasError) {
-                              widget = Column(children: <Widget>[
-                                const Icon(
-                                  Icons.error_outline,
-                                  color: Colors.red,
-                                  size: 60,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 16),
-                                  child: Text('Error: ${snapshot.error}'),
-                                ),
-                              ]);
-                            } else {
-                              widget = CircularProgressIndicator();
-                            }
-                            return widget;
-                          }));
-            },
-          ),
-        ),
       ),
     );
   }
