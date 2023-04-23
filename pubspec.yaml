@@ -41,6 +41,7 @@ dependencies:
   new_gradient_app_bar: ^0.1.4
   material_floating_search_bar: ^0.3.7
   async: ^2.10.0
+  fl_chart: ^0.62.0
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +54,9 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   search_page: ^2.3.0
+  google_fonts: ^3.0.1
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -61,6 +65,97 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+  assets:
+    - assets/design/images/vuesax-linear-star.png
+    - assets/design/images/share-24-outline.png
+    - assets/design/images/vuesax-bold-copy.png
+    - assets/design/images/vuesax-twotone-card-receive.png
+    - assets/design/images/down-arrow-24-outline.png
+    - assets/design/images/text-input.png
+    - assets/design/images/container.png
+    - assets/design/images/up-arrow-24-outline.png
+    - assets/design/images/vuesax-linear-messages-2.png
+    - assets/design/images/card.png
+    - assets/design/images/container-pzU.png
+    - assets/design/images/container-w9A.png
+    - assets/design/images/container-KRa.png
+    - assets/design/images/image-8.png
+    - assets/design/images/vertical-container.png
+    - assets/design/images/vuesax-linear-arrow-left.png
+    - assets/design/images/card-4Cp.png
+    - assets/design/images/image-7.png
+    - assets/design/images/down-arrow-24-outline-ci4.png
+    - assets/design/images/image-4.png
+    - assets/design/images/vertical-container-9Ex.png
+    - assets/design/images/image-4-LPA.png
+    - assets/design/images/vertical-container-QYG.png
+    - assets/design/images/vuesax-linear-arrow-left-8UG.png
+    - assets/design/images/group-1.png
+    - assets/design/images/image-5.png
+    - assets/design/images/container-8dN.png
+    - assets/design/images/text-input-Se4.png
+    - assets/design/images/text-input-1SG.png
+    - assets/design/images/card-P3W.png
+    - assets/design/images/vertical-container-LzL.png
+    - assets/design/images/down-arrow-24-outline-6yW.png
+    - assets/design/images/vector.png
+    - assets/design/images/container-5F6.png
+    - assets/design/images/vector-NX2.png
+    - assets/design/images/frame-62.png
+    - assets/design/images/container-AYg.png
+    - assets/design/images/vertical-container-J96.png
+    - assets/design/images/card-shz.png
+    - assets/design/images/vertical-container-CJC.png
+    - assets/design/images/vertical-container-x2U.png
+    - assets/design/images/vector-BZS.png
+    - assets/design/images/up-arrow-24-outline-8Fi.png
+    - assets/design/images/vertical-container-WKS.png
+    - assets/design/images/text-input-PfN.png
+    - assets/design/images/dai.png
+    - assets/design/images/card-NbA.png
+    - assets/design/images/vuesax-linear-arrow-left-Po6.png
+    - assets/design/images/down-arrow-24-outline-wEG.png
+    - assets/design/images/container-R2x.png
+    - assets/design/images/vertical-container-5Fv.png
+    - assets/design/images/container-art.png
+    - assets/design/images/card-ZEG.png
+    - assets/design/images/vector-x9v.png
+    - assets/design/images/down-arrow-24-outline-N7A.png
+    - assets/design/images/setting-24-outline.png
+    - assets/design/images/down-arrow-24-outline-XRJ.png
+    - assets/design/images/down-arrow-24-outline-iu6.png
+    - assets/design/images/vuesax-linear-messages-2-SCp.png
+    - assets/design/images/text-input-p4x.png
+    - assets/design/images/vector-HA8.png
+    - assets/design/images/vector-qxL.png
+    - assets/design/images/image-6.png
+    - assets/design/images/vector-yYk.png
+    - assets/design/images/card-8Re.png
+    - assets/design/images/vertical-container-J5E.png
+    - assets/design/images/card-5Lt.png
+    - assets/design/images/up-arrow-24-outline-qqr.png
+    - assets/design/images/vector-Dhz.png
+    - assets/design/images/left-alignment-24-outline.png
+    - assets/design/images/vertical-container-Nqn.png
+    - assets/design/images/vertical-container-khv.png
+    - assets/design/images/vertical-container-XTn.png
+    - assets/design/images/container-WBJ.png
+    - assets/design/images/container-gLg.png
+    - assets/design/images/icon-outline-plus-sm.png
+    - assets/design/images/vertical-container-dmi.png
+    - assets/design/images/vector-pBz.png
+    - assets/design/images/vector-CK2.png
+    - assets/design/images/auto-group-yrmy.png
+    - assets/design/images/container-MSp.png
+    - assets/design/images/left-alignment-24-outline-7wn.png
+    - assets/design/images/vuesax-twotone-card-send.png
+    - assets/design/images/vertical-container-sg4.png
+    - assets/design/images/setting-24-outline-SjA.png
+    - assets/design/images/vector-DV2.png
+    - assets/design/images/button-container.png
+    - assets/design/images/down-arrow-24-outline-kjz.png
+    - assets/design/images/vector-iic.png
+
   fonts:
     - family: Roboto
       fonts:

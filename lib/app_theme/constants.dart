@@ -8,3 +8,5 @@ const Color kHeadLineColor = Color(0xFFF2F2F2);
 const Color kSubInfoColor = Color(0xFFBFBFBF);
 
 const Color kUnselectedColor = Color(0xFF787878);
+
+const String rupeeSymbol = "₹";

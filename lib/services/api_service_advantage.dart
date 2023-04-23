@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:stocks_application/models/auto_complete_advantage.dart';
 import 'package:stocks_application/models/auto_complete_query.dart';
@@ -24,8 +26,9 @@ class ApiServiceAdvantage {
     AutoCompleteAdvantange? autoCompleteAdvantange;
     try {
       Response<dynamic> autoCompleteAdvantageData = await _dio.get('',
-          queryParameters: {'keywords': query,"function" :'SYMBOL_SEARCH'});
-      autoCompleteAdvantange = AutoCompleteAdvantange.fromJson(autoCompleteAdvantageData.data);
+          queryParameters: {'keywords': query, "function": 'SYMBOL_SEARCH'});
+      autoCompleteAdvantange =
+          AutoCompleteAdvantange.fromJson(autoCompleteAdvantageData.data);
     } on DioError catch (e) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx and is also not 304.
@@ -69,4 +72,16 @@ class ApiServiceAdvantage {
     return stockQuote;
   }
 
+  Future<List<String>> getDailyData(String symbol) async {
+    Response<dynamic> data = await _dio.get('', queryParameters: {
+      'function': "TIME_SERIES_DAILY",
+      "symbol": symbol,
+      "outputsize": "full",
+    });
+    print(data.realUri);
+    print(data.data);
+    var _timeData = data.data!;
+    print(_timeData['Time Series (1min)']);
+    return ['test'];
+  }
 }
